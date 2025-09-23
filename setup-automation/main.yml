@@ -20,10 +20,24 @@
       ansible_ssh_pass: "{{ lookup('ansible.builtin.env', 'BASTION_PASSWORD') }}"
       ansible_python_interpreter: /usr/libexec/platform-python
     loop:
-      - rhel1
-      - rhel2
-      - satellite-2
-      - satellite
+    - rhel1
+    - rhel2
+    - satellite-2
+    - satellite
+
+- name: Copy assets
+  hosts: satellite:!localhost
+  gather_facts: false
+  become: true
+  tasks:
+  - name: Copy assets file
+    ansible.builtin.copy:
+      src: assets/{{ item }}
+      dest: /root/{{ item }}
+    loop:
+      - "hello-0.0.1-1.el9.noarch.rpm"
+    
+
 - name: Demo Playbook for the ansible-runner API
   hosts: all:!localhost
   gather_facts: false
