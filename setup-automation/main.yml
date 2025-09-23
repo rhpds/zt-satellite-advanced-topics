@@ -30,9 +30,12 @@
   gather_facts: false
   tasks:
   - name: Copy assets file
-    synchronize:
-      src: assets/
-      dest: /root/
+    ansible.builtin.copy:
+      src: assets/{{ item }}
+      dest: /root/{{ item }}
+    loop:
+      - "hello-0.0.1-1.el9.noarch.rpm"
+    
 
 - name: Demo Playbook for the ansible-runner API
   hosts: all:!localhost
