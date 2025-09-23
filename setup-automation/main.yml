@@ -30,7 +30,7 @@
   gather_facts: false
   tasks:
   - name: Copy assets file
-    ansible.posix.synchronize:
+    synchronize:
       src: assets/
       dest: /root/
 
