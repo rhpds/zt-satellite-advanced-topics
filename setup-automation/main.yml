@@ -57,7 +57,26 @@
       path: "/tmp/setup-scripts/"
       state: directory
       mode: '0755'
-
+  
+  - name: Configure SSH client to use root user
+    ansible.builtin.lineinfile:
+      path: /root/.ssh/config
+      line: "  User root"
+      regexp: '^[ \t]*User cloud-user'
+      create: yes
+      owner: root
+      group: root
+      mode: '0600'
+    become: true
+  
+  - name: Remove SSH key restrictions but keep the key
+    ansible.builtin.replace:
+      path: /root/.ssh/authorized_keys
+      regexp: '^no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo.*exit 142" '
+      replace: ''
+      backup: yes
+    become: true
+  
   - name: Check if setup-server.sh exists
     ansible.builtin.stat:
       path: "./setup-{{ config_host }}.sh"
