@@ -28,6 +28,7 @@
 - name: Copy assets
   hosts: satellite:!localhost
   gather_facts: false
+  become: true
   tasks:
   - name: Copy assets file
     ansible.builtin.copy:
