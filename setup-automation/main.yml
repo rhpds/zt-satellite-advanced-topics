@@ -36,7 +36,7 @@
       dest: /root/{{ item }}
     loop:
       - "hello-0.0.1-1.el9.noarch.rpm"
-    
+
 
 - name: Demo Playbook for the ansible-runner API
   hosts: all:!localhost
@@ -57,7 +57,7 @@
       path: "/tmp/setup-scripts/"
       state: directory
       mode: '0755'
-  
+
   - name: Configure SSH client to use root user
     ansible.builtin.lineinfile:
       path: /root/.ssh/config
@@ -68,7 +68,7 @@
       group: root
       mode: '0600'
     become: true
-  
+
   - name: Remove SSH key restrictions but keep the key
     ansible.builtin.replace:
       path: /root/.ssh/authorized_keys
@@ -76,7 +76,7 @@
       replace: ''
       backup: yes
     become: true
-  
+
   - name: Check if setup-server.sh exists
     ansible.builtin.stat:
       path: "./setup-{{ config_host }}.sh"
@@ -120,3 +120,70 @@
     when:
     - r_result is defined
     - r_result.rc != 0
+ name: Pre task(s) for rhel2
+  hosts: rhel2
+  gather_facts: false
+  vars:
+    guid: "{{ lookup('ansible.builtin.env', 'GUID') }}"
+  tasks:
+
+  - name: Fetch private SSH key to be used later
+    ansible.builtin.slurp:
+      src: "/home/rhel/.ssh/{{ guid }}key.pem"
+    register: r_slurp
+
+  - name: Save to tmp
+    ansible.builtin.copy:
+      dest: "/tmp/{{ guid }}key.pem"
+      content: "{{ r_slurp['content'] | b64decode }}"
+      mode: 0600
+    delegate_to: localhost
+
+  - name: Fetch /etc/hosts
+    ansible.builtin.slurp:
+      src: "/etc/hosts"
+    register: r_etc_hosts
+
+  - name: Save to tmp
+    ansible.builtin.copy:
+      dest: "/tmp/hosts"
+      content: "{{ r_etc_hosts['content'] | b64decode }}"
+      mode: 0644
+    delegate_to: localhost
+
+- name: Create inventory
+  hosts: localhost
+  gather_facts: false
+  vars:
+    guid: "{{ lookup('ansible.builtin.env', 'GUID') }}"
+  tasks:
+  - name: Add rhel2 host with SSH key
+    ansible.builtin.add_host:
+      name: "rhel2post"
+      ansible_ssh_host: "rhel2"
+      ansible_ssh_user: "root"
+      ansible_ssh_private_key_file: "/tmp/{{ guid }}key.pem"
+
+    - name: Ensure user 'root' has the specified password
+      ansible.builtin.user:
+        name: root
+        password: "{{ rhel_user_password | password_hash('sha512') }}" # Generates SHA512 hash from prompted password
+
+    - name: Add PermitRootLogin configuration snippet
+      ansible.builtin.copy:
+        content: |
+          PermitRootLogin yes
+        dest: /etc/ssh/sshd_config.d/ansible_permit_root_login.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Reload sshd
+      ansible.builtin.service:
+        name: sshd
+        state: reloaded
+    - name: Restore /etc/hosts
+      ansible.builtin.copy:
+        src: /tmp/hosts
+        dest: /etc/hosts
+
