@@ -120,12 +120,13 @@
     when:
     - r_result is defined
     - r_result.rc != 0
- name: Pre task(s) for rhel2
-  hosts: rhel2
-  gather_facts: false
-  vars:
-    guid: "{{ lookup('ansible.builtin.env', 'GUID') }}"
-  tasks:
+
+  - name: Pre task(s) for rhel2
+    hosts: rhel2
+    gather_facts: false
+    vars:
+      guid: "{{ lookup('ansible.builtin.env', 'GUID') }}"
+    tasks:
 
   - name: Fetch private SSH key to be used later
     ansible.builtin.slurp:
