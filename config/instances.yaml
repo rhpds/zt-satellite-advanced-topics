@@ -1,7 +1,7 @@
 ---
 virtualmachines:
   - name: "satellite"
-    image: "satellite-server-rhdp-1-6-17-07-02-25"
+    image: "satellite-server-rhdp-1-6-17-07-30-25"
     bootloader: efi
     register_satellite: false
     memory: "32G"
