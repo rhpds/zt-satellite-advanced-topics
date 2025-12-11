@@ -110,7 +110,7 @@ image::networksync.png[../assets/networksync]
 Perform the following tasks.
 
 [arabic, start=1]
-.Enter the url for satellite.lab.
+. Enter the url for satellite.lab.
 
 [source,js]
 ----
