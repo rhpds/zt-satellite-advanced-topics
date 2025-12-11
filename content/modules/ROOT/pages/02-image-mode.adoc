@@ -127,7 +127,7 @@ Try it.
 
 [source,bash,run]
 ----
-export regscript=$(hammer host-registration generate-command --activation-key bootc-summit --setup-insights false --insecure true --force 1)
+export regscript=$(hammer host-registration generate-command --activation-key bootc-summit --setup-insights false --insecure true --setup-container-registry-certs true --force 1)
 ssh -o "StrictHostKeyChecking no" root@rhel2 $regscript
 ----
 
@@ -268,33 +268,6 @@ From `+rhel1+` we’ll push our updated container image to Satellite.
 ----
 podman push satellite.lab/acme_org/bootc/rhel10beta:summit-2025 --tls-verify=false
 ----
-====
-=====
-
-== Enable unauthenticated pull operations for container images on Satellite
-
-For the sake of simplicity, we want to enable unauthenticated pull for
-container images.
-
-=====
-.Enable unauthenticated pull operations for container images on Satellite
-[%collapsible]
-====
-Navigate back to the `Satellite Web UI` tab.
-
-[arabic]
-. Go to the `+Lifecycle Environments+` menu.
-. Click on `+Library+`.
-
-.Lifecycle Environments
-image::lcelibrary.png[../assets/lcelibrary]
-
-In the `+Details+` tab, do the following.
-. Check the `+Unauthenticated Pull+` checkbox.
-. Click `+Save+`.
-
-.Library
-image::unauthpull.png[../assets/unauthpull]
 ====
 =====
 
