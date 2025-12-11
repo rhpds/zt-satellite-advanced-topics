@@ -1,6 +1,6 @@
 ---
 site:
-  title: "Satellite Advanced Topics 6.17"
+  title: "Satellite Advanced Topics"
   url: https://github.com/rhpds/showroom_template_zero
   start_page: modules::01-introduction.adoc
 
