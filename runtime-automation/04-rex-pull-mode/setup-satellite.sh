@@ -1,2 +1,2 @@
-#!/bin/sh
-echo "Starting module called 04-rex-pull-mode" >> /tmp/progress.log
+#!/bin/bash
+subscription-manager repos --enable=satellite-6.18-for-rhel-9-x86_64-rpms
