@@ -403,7 +403,7 @@ image::categoryandtemplate.png[commands job category]
 
 [source,js]
 ----
-dnf install -y openssl-devel
+dnf install -y postgresql
 ----
 
 [arabic,start=2]
