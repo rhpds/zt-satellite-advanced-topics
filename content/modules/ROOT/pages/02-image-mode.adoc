@@ -9,7 +9,7 @@ operations, and solution providers use the same container-native tools
 and techniques to manage everything from applications to the underlying
 OS.
 
-Red Hat Satellite 6.17 supports the management of RHEL image mode
+Red Hat Satellite 6.18 supports the management of RHEL image mode
 systems. In this assignment, we’ll walk through the steps of registering
 and updating an image mode system.
 

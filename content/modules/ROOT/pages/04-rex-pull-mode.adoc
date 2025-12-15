@@ -143,7 +143,7 @@ Run the following script in `satellite.lab terminal`.
 ----
 tee ~/rexsetting.yml << EOF
 ---
-- name: Configure Satellite 6.17
+- name: Configure Satellite 6.18
   hosts: localhost
   remote_user: root
 
@@ -280,7 +280,7 @@ In the `satellite.lab terminal` run the following command.
 ----
 tee ~/rexdefault.yml << EOF
 ---
-- name: Configure Satellite 6.17
+- name: Configure Satellite 6.18
   hosts: localhost
   remote_user: root
 
