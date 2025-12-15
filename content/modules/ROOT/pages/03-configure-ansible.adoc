@@ -57,7 +57,7 @@ Next, run the script below to write the following ansible playbook.
 ----
 tee ~/config.yml << EOF
 ---
-- name: Configure Satellite 6.17
+- name: Configure Satellite 6.18
   hosts: localhost
   remote_user: root
 

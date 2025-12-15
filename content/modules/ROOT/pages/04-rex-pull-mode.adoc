@@ -63,7 +63,7 @@ Run the following command in `satellite.lab terminal`.
 
 [source,bash,run]
 ----
-export regscript=$(hammer host-registration generate-command --activation-key RHEL10 --setup-insights 0 --insecure 1 --force 1)
+export regscript=$(hammer host-registration generate-command --activation-key RHEL10 --setup-insights 1 --insecure 1 --force 1)
 ssh -o "StrictHostKeyChecking no" root@rhel1 $regscript
 ----
 
@@ -143,7 +143,7 @@ Run the following script in `satellite.lab terminal`.
 ----
 tee ~/rexsetting.yml << EOF
 ---
-- name: Configure Satellite 6.17
+- name: Configure Satellite 6.18
   hosts: localhost
   remote_user: root
 
@@ -280,7 +280,7 @@ In the `satellite.lab terminal` run the following command.
 ----
 tee ~/rexdefault.yml << EOF
 ---
-- name: Configure Satellite 6.17
+- name: Configure Satellite 6.18
   hosts: localhost
   remote_user: root
 
@@ -403,7 +403,7 @@ image::categoryandtemplate.png[commands job category]
 
 [source,js]
 ----
-dnf install -y openssl-devel
+dnf install -y postgresql
 ----
 
 [arabic,start=2]
