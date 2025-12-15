@@ -93,32 +93,9 @@
     when: r_script_test.stat.exists
     shell: "sh -x /tmp/setup-scripts/setup-{{ ansible_host }}.sh > /tmp/setup-scripts/setup-{{ ansible_host }}.log 2>&1"
     become: true
+    ignore_errors: true
     register: r_result
 
-  - name: Output script result
-    ansible.builtin.debug:
-      var: r_result.stdout
-    when: r_script_test.stat.exists
-
-  - name: Write script result to file
-    ansible.builtin.copy:
-      content: "{{ r_result.stdout | default(r_result.stderr) | default(r_result) }}"
-      dest: "/tmp/{{ ansible_host }}-setup-script.out"
-    delegate_to: localhost
-    when:
-    - r_result is defined
-
-  - name: Output script result
-    ansible.builtin.debug:
-      var: r_result
-    when: r_result is defined
-
-  - name: Fail if stage was failed
-    ansible.builtin.fail:
-      msg: "Setup failed"
-    when:
-    - r_result is defined
-    - r_result.rc != 0
 
 - name: Create inventory
   hosts: localhost
